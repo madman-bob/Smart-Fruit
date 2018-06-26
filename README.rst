@@ -15,10 +15,8 @@ Create and use a machine learning model in 3 steps:
 Example
 -------
 
-To get a feel for the library, consider the classic `Iris`_ dataset,
+To get a feel for the library, consider the classic `Iris <https://archive.ics.uci.edu/ml/datasets/Iris>`_ dataset,
 where we predict the class of iris plant from measurements of the sepal, and petal.
-
-.. _Iris: https://archive.ics.uci.edu/ml/datasets/Iris
 
 First, we create a schema describing our inputs and outputs:
 
