@@ -22,7 +22,7 @@ setup(
 
     description='A Python schema-based machine learning library',
     long_description=long_description,
-    long_description_content_type='text/x-rst; charset=UTF-8',
+    long_description_content_type='text/x-rst',
     url='https://github.com/madman-bob/Smart-Fruit',
     license='MIT',
     classifiers=[
