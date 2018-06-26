@@ -44,7 +44,7 @@ Then, we train a model:
 
 with data file ``iris_data.csv``
 
-.. code:: csv
+::
 
     sepal_length_cm,sepal_width_cm,petal_length_cm,petal_width_cm,iris_class
     5.1,3.5,1.4,0.2,Iris-setosa
