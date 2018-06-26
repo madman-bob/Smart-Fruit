@@ -8,9 +8,9 @@ Usage
 
 Create and use a machine learning model in 3 steps:
 
-#. Create a schema representing your input and output features.
-#. Train a model from your data.
-#. Make predictions from your model.
+1. Create a schema representing your input and output features.
+2. Train a model from your data.
+3. Make predictions from your model.
 
 Example
 -------
