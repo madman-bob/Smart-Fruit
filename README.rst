@@ -166,3 +166,12 @@ Requirements
 ------------
 
 Smart Fruit requires Python 3.6+, and uses scikit-learn, scipy, and pandas.
+
+Installation
+------------
+
+Install and update using pip:
+
+.. code:: text
+
+    pip install smart-fruit
