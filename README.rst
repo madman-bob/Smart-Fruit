@@ -175,3 +175,9 @@ Install and update using pip:
 .. code:: text
 
     pip install smart-fruit
+
+Donate
+------
+
+To support the continued development of Smart Fruit, please
+`donate <https://salt.bountysource.com/checkout/amount?team=smart-fruit>`_.
