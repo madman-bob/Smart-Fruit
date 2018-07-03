@@ -1,9 +1,14 @@
 from setuptools import setup
 from os import path
 
-import smart_fruit
+import re
 
 here = path.abspath(path.dirname(__file__))
+
+
+def get_version():
+    with open(path.join(here, 'smart_fruit', '__init__.py'), encoding='utf-8') as init_file:
+        return re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", init_file.read(), re.M).group(1)
 
 
 def get_long_description():
@@ -18,7 +23,7 @@ def get_requirements():
 
 setup(
     name='smart-fruit',
-    version=smart_fruit.__version__,
+    version=get_version(),
     packages=['smart_fruit'],
     install_requires=get_requirements(),
 
