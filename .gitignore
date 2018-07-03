@@ -1,4 +1,5 @@
 # PyPI build files
+.pypirc
 build
 dist
 smart_fruit.egg-info

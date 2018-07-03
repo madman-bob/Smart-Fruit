@@ -4,8 +4,8 @@
 python3 setup.py sdist bdist_wheel
 
 # Upload distribution to PyPI
-twine upload dist/*
-# For testing, add `--repository-url https://test.pypi.org/legacy/`
+twine upload --config-file .pypirc dist/*
+# For testing, add `--repository testpypi`
 
 # Tidy up
 rm -rf build
