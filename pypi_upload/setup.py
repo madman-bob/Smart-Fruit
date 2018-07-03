@@ -3,21 +3,21 @@ from os import path
 
 import re
 
-here = path.abspath(path.dirname(__file__))
+project_root = path.join(path.abspath(path.dirname(__file__)), '..')
 
 
 def get_version():
-    with open(path.join(here, 'smart_fruit', '__init__.py'), encoding='utf-8') as init_file:
+    with open(path.join(project_root, 'smart_fruit', '__init__.py'), encoding='utf-8') as init_file:
         return re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", init_file.read(), re.M).group(1)
 
 
 def get_long_description():
-    with open(path.join(here, 'README.rst'), encoding='utf-8') as readme_file:
+    with open(path.join(project_root, 'README.rst'), encoding='utf-8') as readme_file:
         return readme_file.read()
 
 
 def get_requirements():
-    with open(path.join(here, 'requirements.txt'), encoding='utf-8') as requirements_file:
+    with open(path.join(project_root, 'requirements.txt'), encoding='utf-8') as requirements_file:
         return [requirement.strip() for requirement in requirements_file if requirement.strip()]
 
 
