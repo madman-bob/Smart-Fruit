@@ -78,4 +78,4 @@ class Label(FeatureType, namedtuple('Label', ['labels'])):
         return Series([int(value == label) for label in self.labels])
 
     def from_series(self, features):
-        return max(zip(features, self.labels))[1]
+        return max(zip(features, enumerate(self.labels)))[1][1]
