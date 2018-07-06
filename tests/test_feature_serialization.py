@@ -27,6 +27,16 @@ class TestFeatureSerialization(TestCase):
         (2, 'a')
     )
 
+    invalid_iterable_inputs = (
+        ('a', 'a'),
+        (float('nan'), 'a'),
+        (float('inf'), 'a'),
+        (- float('inf'), 'a'),
+
+        (1, 1),
+        (1, 'd')
+    )
+
     def test_iterable_deserialization(self):
         with self.subTest(feature_type=self.ExampleModel.Input):
             feature = self.ExampleModel.Input(*self.example_input)
@@ -78,3 +88,15 @@ class TestFeatureSerialization(TestCase):
         with self.subTest(feature_type=self.ExampleModel.Output):
             feature = self.ExampleModel.Output(*self.example_output)
             self.assertEqual(dict(feature.to_json()), self.example_json_output)
+
+    def test_value_coercion(self):
+        self.assertEqual(
+            self.ExampleModel.Input('1', 'a').validate(),
+            self.ExampleModel.Input(1, 'a')
+        )
+
+    def test_invalid_deserialization(self):
+        for invalid_input in self.invalid_iterable_inputs:
+            with self.subTest(invalid_input=invalid_input), \
+                 self.assertRaises((TypeError, ValueError)):
+                self.ExampleModel.Input(*invalid_input).validate()

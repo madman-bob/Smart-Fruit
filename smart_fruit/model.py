@@ -32,12 +32,12 @@ class Model(metaclass=ModelMeta):
     @classmethod
     def input_features_from_list(cls, lists):
         for l in lists:
-            yield cls.Input(*l)
+            yield cls.Input(*l).validate()
 
     @classmethod
     def input_features_from_json(cls, json):
         for feature in json:
-            yield cls.Input.from_json(feature)
+            yield cls.Input.from_json(feature).validate()
 
     @classmethod
     def input_features_from_csv(cls, csv_path):
@@ -47,12 +47,12 @@ class Model(metaclass=ModelMeta):
     @classmethod
     def features_from_list(cls, lists):
         for l in lists:
-            yield cls.Input(*l[:len(cls.Input._fields)]), cls.Output(*l[len(cls.Input._fields):])
+            yield cls.Input(*l[:len(cls.Input._fields)]).validate(), cls.Output(*l[len(cls.Input._fields):]).validate()
 
     @classmethod
     def features_from_json(cls, json):
         for feature in json:
-            yield cls.Input.from_json(feature), cls.Output.from_json(feature)
+            yield cls.Input.from_json(feature).validate(), cls.Output.from_json(feature).validate()
 
     @classmethod
     def features_from_csv(cls, csv_path):

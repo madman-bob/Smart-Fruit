@@ -122,10 +122,10 @@ Models
   .. code:: python
 
     >>> list(Iris.features_from_csv('iris_data.csv'))
-    [(Input(sepal_length_cm='5.1', sepal_width_cm='3.5', petal_length_cm='1.4', petal_width_cm='0.2'), Output(iris_class='Iris-setosa')), ...]
+    [(Input(sepal_length_cm=5.1, sepal_width_cm=3.5, petal_length_cm=1.4, petal_width_cm=0.2), Output(iris_class='Iris-setosa')), ...]
 
     >>> list(Iris.input_features_from_csv('iris_data.csv'))
-    [Input(sepal_length_cm='5.1', sepal_width_cm='3.5', petal_length_cm='1.4', petal_width_cm='0.2'), ...]
+    [Input(sepal_length_cm=5.1, sepal_width_cm=3.5, petal_length_cm=1.4, petal_width_cm=0.2), ...]
 
 - ``Model.train(features)``
 

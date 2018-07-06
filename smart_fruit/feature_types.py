@@ -1,10 +1,17 @@
 from abc import ABCMeta
 from collections import namedtuple
 
+from numpy import isfinite
 from pandas import Series
 
 
 class FeatureClassMixin:
+    def validate(self):
+        return self.__class__(*(
+            feature_type.validate(value)
+            for feature_type, value in zip(self.__class__, self)
+        ))
+
     @classmethod
     def from_json(cls, json):
         return cls(**{
@@ -58,6 +65,9 @@ class FeatureType(metaclass=ABCMeta):
 
         return instance[self._index]
 
+    def validate(self, value):
+        return value
+
     def to_series(self, value):
         return Series([value])
 
@@ -66,13 +76,35 @@ class FeatureType(metaclass=ABCMeta):
 
 
 class Number(FeatureType):
-    pass
+    def validate(self, value):
+        value = float(value)
+
+        if not isfinite(value):
+            raise ValueError(
+                "May not assign non-finite value {} to a {}".format(
+                    value,
+                    self.__class__.__name__
+                )
+            )
+
+        return value
 
 
 class Label(FeatureType, namedtuple('Label', ['labels'])):
     @property
     def feature_count(self):
         return len(self.labels)
+
+    def validate(self, value):
+        if value not in self.labels:
+            raise TypeError(
+                "May not use non-existent label {!r} in a {!r}".format(
+                    value,
+                    self
+                )
+            )
+
+        return value
 
     def to_series(self, value):
         return Series([int(value == label) for label in self.labels])
