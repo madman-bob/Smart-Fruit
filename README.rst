@@ -127,9 +127,20 @@ Models
     >>> list(Iris.input_features_from_csv('iris_data.csv'))
     [Input(sepal_length_cm=5.1, sepal_width_cm=3.5, petal_length_cm=1.4, petal_width_cm=0.2), ...]
 
-- ``Model.train(features)``
+- ``Model.train(features, train_test_split_ratio=None, test_sample_count=None)``
 
   Train a new model on the given iterable of input/output pairs.
+
+  Parameters:
+
+  - ``features`` - An iterable of input/output pairs.
+
+  - ``train_test_split_ratio`` - Proportion of data to use as cross-validation test data.
+
+  - ``test_sample_count`` - Number of samples of data to use as cross-validation test data.
+
+    If ``train_test_split_ratio`` or ``test_sample_count`` are provided, perform cross-validation of the given data.
+    Return both the trained model, and the score of the test data on that model.
 
   eg.
 

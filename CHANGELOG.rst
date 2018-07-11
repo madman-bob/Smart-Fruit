@@ -7,6 +7,7 @@ Changelog
 Features:
 
 - Add basic feature type validation, and coercion, function.
+- Add test/train split parameters to ``Model.train``.
 
 Bug fixes:
 

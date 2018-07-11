@@ -5,6 +5,7 @@ from pandas import DataFrame, concat
 from sklearn import linear_model
 
 from smart_fruit.feature_types import FeatureClassMeta
+from smart_fruit.model_selection import train_test_split
 
 
 class ModelMeta(type):
@@ -75,7 +76,18 @@ class Model(metaclass=ModelMeta):
         return input_dataframe, output_dataframe
 
     @classmethod
-    def train(cls, features):
+    def train(cls, features, train_test_split_ratio=None, test_sample_count=None):
+        if train_test_split_ratio is not None or test_sample_count is not None:
+            train_features, test_features = train_test_split(
+                features,
+                train_test_split_ratio=train_test_split_ratio,
+                test_sample_count=test_sample_count
+            )
+
+            model = cls.train(train_features)
+
+            return model, model.score(test_features)
+
         model = cls()
 
         model.model.fit(*model._dataframes_from_features(features))
