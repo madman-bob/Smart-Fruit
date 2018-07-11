@@ -7,6 +7,8 @@ from sklearn import linear_model
 from smart_fruit.feature_types import FeatureClassMeta
 from smart_fruit.model_selection import train_test_split
 
+__all__ = ["Model"]
+
 
 class ModelMeta(type):
     def __init__(cls, name, bases, namespace):

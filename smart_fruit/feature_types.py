@@ -4,6 +4,8 @@ from collections import namedtuple
 from numpy import isfinite
 from pandas import Series
 
+__all__ = ["FeatureType", "FeatureClassMeta", "Number", "Label"]
+
 
 class FeatureClassMixin:
     def validate(self):
