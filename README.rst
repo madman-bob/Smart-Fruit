@@ -149,6 +149,14 @@ Models
     >>> list(Iris.input_features_from_csv('iris_data.csv'))
     [Input(sepal_length_cm=5.1, sepal_width_cm=3.5, petal_length_cm=1.4, petal_width_cm=0.2), ...]
 
+- ``Model.model_class`` - How to model the relation between the input and output data.
+
+  Default: ``sklearn.linear_model.LinearRegression``
+
+  This attribute accepts any class with ``fit``, ``predict``, and ``score`` methods defined as for ``scikit-learn`` multi-response regression models.
+  In particular, this attribute accepts any ``scikit-learn`` multi-response regression models,
+  ie. any ``scikit-learn`` regression model where the ``y`` parameter of ``fit`` accepts a numpy array of shape ``[n_samples, n_targets]``.
+
 - ``Model.train(features, train_test_split_ratio=None, test_sample_count=None)``
 
   Train a new model on the given iterable of input/output pairs.
