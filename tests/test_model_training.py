@@ -16,6 +16,12 @@ class TestModelTraining(TestCase):
 
         return score
 
+    def _median_train_test_split(self, *args, attempts=3, **kwargs):
+        return median([
+            self._train_test_split(*args, **kwargs)
+            for _ in range(attempts)
+        ])
+
     def test_train_test_split_perfect(self):
         self.assertEqual(
             self._train_test_split(lambda n: 10 * n, train_test_split_ratio=0.2),
@@ -25,19 +31,22 @@ class TestModelTraining(TestCase):
     def test_train_test_split_noisy(self):
         for n in range(1, 10):
             with self.subTest(train_test_split_ratio=n / 10):
-                score = median([
-                    self._train_test_split(lambda m: m + 5 * random(), train_test_split_ratio=n / 10)
-                    for _ in range(5)
-                ])
+                score = self._median_train_test_split(
+                    lambda m: m + 5 * random(),
+                    train_test_split_ratio=n / 10,
+                    attempts=5
+                )
 
                 self.assertGreater(score, 0)
                 self.assertLess(score, 1)
 
     def test_train_test_split_pure_noise(self):
-        score = median([
-            self._train_test_split(lambda n: random(), train_test_split_ratio=0.2)
-            for _ in range(5)
-        ])
+        score = self._median_train_test_split(
+            lambda n: random(),
+            train_test_split_ratio=0.2,
+            attempts=5
+        )
+
         self.assertLess(score, 0)
 
     def test_train_test_split_errors(self):
