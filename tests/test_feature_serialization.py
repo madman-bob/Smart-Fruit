@@ -1,3 +1,4 @@
+from io import StringIO
 from itertools import product
 from unittest import TestCase
 
@@ -50,6 +51,21 @@ class TestFeatureSerialization(TestCase):
             self.assertEqual(feature.number_a, 1)
             self.assertEqual(feature.number_b, 2)
 
+        with self.subTest(func=self.ExampleModel.input_features_from_list):
+            features = list(self.ExampleModel.input_features_from_list([self.example_input]))
+
+            self.assertEqual(features[0].number, 1)
+            self.assertEqual(features[0].label, 'a')
+
+        with self.subTest(func=self.ExampleModel.features_from_list):
+            features = list(self.ExampleModel.features_from_list([self.example_input + self.example_output]))
+
+            self.assertEqual(features[0][0].number, 1)
+            self.assertEqual(features[0][0].label, 'a')
+
+            self.assertEqual(features[0][1].number_a, 1)
+            self.assertEqual(features[0][1].number_b, 2)
+
     def test_json_deserialization(self):
         with self.subTest(feature_type=self.ExampleModel.Input):
             feature = self.ExampleModel.Input.from_json(self.example_json_input)
@@ -62,6 +78,43 @@ class TestFeatureSerialization(TestCase):
 
             self.assertEqual(feature.number_a, 1)
             self.assertEqual(feature.number_b, 2)
+
+        with self.subTest(func=self.ExampleModel.input_features_from_json):
+            features = list(self.ExampleModel.input_features_from_json([self.example_json_input]))
+
+            self.assertEqual(features[0].number, 1)
+            self.assertEqual(features[0].label, 'a')
+
+        with self.subTest(func=self.ExampleModel.features_from_json):
+            features = list(self.ExampleModel.features_from_json([
+                {**self.example_json_input, **self.example_json_output}
+            ]))
+
+            self.assertEqual(features[0][0].number, 1)
+            self.assertEqual(features[0][0].label, 'a')
+
+            self.assertEqual(features[0][1].number_a, 1)
+            self.assertEqual(features[0][1].number_b, 2)
+
+    def test_csv_deserialization(self):
+        with self.subTest(func=self.ExampleModel.input_features_from_csv):
+            features = list(self.ExampleModel.input_features_from_csv(
+                StringIO(",".join(map(str, self.example_input)))
+            ))
+
+            self.assertEqual(features[0].number, 1)
+            self.assertEqual(features[0].label, 'a')
+
+        with self.subTest(func=self.ExampleModel.features_from_csv):
+            features = list(self.ExampleModel.features_from_csv(
+                StringIO(",".join(map(str, self.example_input + self.example_output)))
+            ))
+
+            self.assertEqual(features[0][0].number, 1)
+            self.assertEqual(features[0][0].label, 'a')
+
+            self.assertEqual(features[0][1].number_a, 1)
+            self.assertEqual(features[0][1].number_b, 2)
 
     def test_feature_equality(self):
         for a, b in product(self.valid_iterable_inputs, repeat=2):
