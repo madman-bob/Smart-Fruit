@@ -5,7 +5,7 @@ from pandas import Series
 
 from smart_fruit.feature_types.feature_type_base import FeatureType
 
-__all__ = ["Number", "Label"]
+__all__ = ["Number", "Integer", "Label"]
 
 
 class Number(FeatureType):
@@ -21,6 +21,14 @@ class Number(FeatureType):
             )
 
         return value
+
+
+class Integer(Number):
+    def validate(self, value):
+        return int(round(super().validate(value)))
+
+    def from_series(self, features):
+        return int(round(super().from_series(features)))
 
 
 class Label(FeatureType, namedtuple('Label', ['labels'])):
