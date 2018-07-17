@@ -1,11 +1,10 @@
-from csv import DictReader
-
 from pandas import DataFrame, concat
 
 from sklearn import linear_model
 
 from smart_fruit.feature_types import FeatureClassMeta
 from smart_fruit.model_selection import train_test_split
+from smart_fruit.utils import csv_open
 
 __all__ = ["Model"]
 
@@ -44,8 +43,7 @@ class Model(metaclass=ModelMeta):
 
     @classmethod
     def input_features_from_csv(cls, csv_path):
-        with open(csv_path) as csv_file:
-            yield from cls.input_features_from_json(DictReader(csv_file))
+        yield from cls.input_features_from_json(csv_open(csv_path, cls.Input._fields))
 
     @classmethod
     def features_from_list(cls, lists):
@@ -59,8 +57,7 @@ class Model(metaclass=ModelMeta):
 
     @classmethod
     def features_from_csv(cls, csv_path):
-        with open(csv_path) as csv_file:
-            yield from cls.features_from_json(DictReader(csv_file))
+        yield from cls.features_from_json(csv_open(csv_path, cls.Input._fields + cls.Output._fields))
 
     @staticmethod
     def _to_raw_features(dataframe, feature_class):

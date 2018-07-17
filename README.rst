@@ -131,7 +131,9 @@ Models
     >>> list(Iris.input_features_from_json([{'sepal_length_cm': 5.1, 'sepal_width_cm': 3.5, 'petal_length_cm': 1.4, 'petal_width_cm': 0.2}]))
     [Input(sepal_length_cm=5.1, sepal_width_cm=3.5, petal_length_cm=1.4, petal_width_cm=0.2)]
 
-- ``Model.features_from_csv(csv_path)`` - Take a path to a CSV file, and deserialize it into an iterable of input/output feature pairs.
+- ``Model.features_from_csv(csv_path)`` - Take a path to a CSV file, or a file-like object, and deserialize it into an iterable of input/output feature pairs.
+
+  If column headings are not given in the file, assume the input features are followed by the output features, in the order they are defined in their respective classes.
 
   eg.
 
@@ -140,7 +142,9 @@ Models
     >>> list(Iris.features_from_csv('iris_data.csv'))
     [(Input(sepal_length_cm=5.1, sepal_width_cm=3.5, petal_length_cm=1.4, petal_width_cm=0.2), Output(iris_class='Iris-setosa')), ...]
 
-- ``Model.input_features_from_csv(csv_path)`` - Take a path to a CSV file, and deserialize it into an iterable of input features.
+- ``Model.input_features_from_csv(csv_path)`` - Take a path to a CSV file, or a file-like object, and deserialize it into an iterable of input features.
+
+  If column headings are not given in the file, assume they are in the order they are defined in the ``Input`` class.
 
   eg.
 

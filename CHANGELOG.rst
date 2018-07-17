@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.2.0
+-----
+
+Features:
+
+- When reading CSV files, assume columns in same order as defined in class if not given in file.
+
 1.1.0
 -----
 
