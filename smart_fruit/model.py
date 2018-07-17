@@ -2,7 +2,7 @@ from pandas import DataFrame, concat
 
 from sklearn import linear_model
 
-from smart_fruit.feature_types import FeatureClassMeta
+from smart_fruit.feature_class import FeatureClassMeta
 from smart_fruit.model_selection import train_test_split
 from smart_fruit.utils import csv_open
 
