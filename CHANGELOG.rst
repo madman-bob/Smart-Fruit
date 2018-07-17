@@ -8,6 +8,10 @@ Features:
 
 - When reading CSV files, assume columns in same order as defined in class if not given in file.
 
+Bug fixes:
+
+- Support unicode in CSV files.
+
 1.1.0
 -----
 

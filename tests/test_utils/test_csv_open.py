@@ -9,7 +9,8 @@ class TestCSVOpen(TestCase):
     test_csv_columns = ('a', 'b', 'c')
     test_csv_response = [
         {'a': '1', 'b': '2', 'c': '3'},
-        {'a': '4', 'b': '5', 'c': '6'}
+        {'a': '4', 'b': '5', 'c': '6'},
+        {'a': 'α', 'b': 'β', 'c': 'γ'}
     ]
 
     def test_opens_csv_paths(self):
@@ -19,7 +20,7 @@ class TestCSVOpen(TestCase):
         )
 
     def test_opens_csv_file_handles(self):
-        with open(self.test_csv_path) as csv_file:
+        with open(self.test_csv_path, encoding='utf-8') as csv_file:
             self.assertEqual(
                 list(csv_open(csv_file, self.test_csv_columns)),
                 self.test_csv_response
@@ -27,7 +28,7 @@ class TestCSVOpen(TestCase):
 
     def test_no_given_columns(self):
         self.assertEqual(
-            list(csv_open(StringIO("1,2,3\n4,5,6"), self.test_csv_columns)),
+            list(csv_open(StringIO("1,2,3\n4,5,6\nα,β,γ"), self.test_csv_columns)),
             self.test_csv_response
         )
 

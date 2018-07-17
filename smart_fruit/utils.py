@@ -16,7 +16,7 @@ def csv_open(file, expected_columns):
     """
 
     if isinstance(file, str):
-        with open(file) as f:
+        with open(file, encoding='utf-8') as f:
             yield from csv_open(f, expected_columns=expected_columns)
             return
 
