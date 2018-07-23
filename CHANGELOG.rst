@@ -7,7 +7,7 @@ Changelog
 Features:
 
 - When reading CSV files, assume columns in same order as defined in class if not given in file.
-- Add the ``Integer`` feature type.
+- Add the ``Integer``, and ``Complex`` feature types.
 
 Bug fixes:
 

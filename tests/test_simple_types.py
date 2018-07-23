@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from smart_fruit import Model
-from smart_fruit.feature_types import Number, Integer, Label
+from smart_fruit.feature_types import Number, Integer, Complex, Label
 
 
 class TestSimpleTypes(TestCase):
@@ -42,6 +42,25 @@ class TestSimpleTypes(TestCase):
         for a, n, output in zip((0, 0.01, 0.99, 1), (0, 0, 10, 10), predictions):
             with self.subTest(a=a):
                 self.assertEqual(output.b, n)
+
+    def test_complex(self):
+        class ExampleModel(Model):
+            class Input:
+                a = Number()
+
+            class Output:
+                b = Complex()
+
+        model = ExampleModel.train(ExampleModel.features_from_list([
+            (0, 1),
+            (1, 1j)
+        ]))
+
+        predictions = model.predict(ExampleModel.input_features_from_list([[0], [0.5], [1]]))
+
+        for a, b, output in zip((0, 0.5, 1), (1, 0.5 + 0.5j, 1j), predictions):
+            with self.subTest(a=a):
+                self.assertAlmostEqual(output.b, b)
 
     def test_label(self):
         class ExampleModel(Model):

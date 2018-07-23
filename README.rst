@@ -205,6 +205,10 @@ Custom types may be made by extending the ``FeatureType`` class.
 
   eg. ``0``, ``1``, ``3``, ``-17``, ...
 
+- ``Complex()`` - A complex-valued number feature.
+
+  eg. ``0``, ``1``, ``3 + 4j``, ``-1 + 7j``, ...
+
 - ``Label(labels)`` - An enumerated feature, ie. one which may take one of a pre-defined list of available values.
 
   eg. For ``labels = ['red', 'green', 'blue']``, our label may take the value ``'red'``, but not ``'purple'``.

@@ -5,7 +5,7 @@ from pandas import Series
 
 from smart_fruit.feature_types.feature_type_base import FeatureType
 
-__all__ = ["Number", "Integer", "Label"]
+__all__ = ["Number", "Integer", "Complex", "Label"]
 
 
 class Number(FeatureType):
@@ -29,6 +29,29 @@ class Integer(Number):
 
     def from_series(self, features):
         return int(round(super().from_series(features)))
+
+
+class Complex(FeatureType):
+    feature_count = 2
+
+    def validate(self, value):
+        value = complex(value)
+
+        if not isfinite(value):
+            raise ValueError(
+                "May not assign non-finite value {} to a {}".format(
+                    value,
+                    self.__class__.__name__
+                )
+            )
+
+        return value
+
+    def to_series(self, value):
+        return Series([value.real, value.imag])
+
+    def from_series(self, features):
+        return complex(*features)
 
 
 class Label(FeatureType, namedtuple('Label', ['labels'])):
