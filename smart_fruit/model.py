@@ -76,12 +76,13 @@ class Model(metaclass=ModelMeta):
         return input_dataframe, output_dataframe
 
     @classmethod
-    def train(cls, features, train_test_split_ratio=None, test_sample_count=None):
+    def train(cls, features, train_test_split_ratio=None, test_sample_count=None, random_state=None):
         if train_test_split_ratio is not None or test_sample_count is not None:
             train_features, test_features = train_test_split(
                 features,
                 train_test_split_ratio=train_test_split_ratio,
-                test_sample_count=test_sample_count
+                test_sample_count=test_sample_count,
+                random_state=random_state
             )
 
             model = cls.train(train_features)

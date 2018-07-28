@@ -161,7 +161,7 @@ Models
   In particular, this attribute accepts any ``scikit-learn`` multi-response regression models,
   ie. any ``scikit-learn`` regression model where the ``y`` parameter of ``fit`` accepts a numpy array of shape ``[n_samples, n_targets]``.
 
-- ``Model.train(features, train_test_split_ratio=None, test_sample_count=None)``
+- ``Model.train(features, train_test_split_ratio=None, test_sample_count=None, random_state=None)``
 
   Train a new model on the given iterable of input/output pairs.
 
@@ -175,6 +175,11 @@ Models
 
     If ``train_test_split_ratio`` or ``test_sample_count`` are provided, perform cross-validation of the given data.
     Return both the trained model, and the score of the test data on that model.
+
+  - ``random_state`` - Either a ``numpy`` ``RandomState``, or the seed to use for the PRNG.
+
+  Useful for getting consistent results, for example for automated tests.
+  Do not use this parameter when generating models you plan to use in production settings.
 
   eg.
 

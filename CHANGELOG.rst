@@ -9,6 +9,7 @@ Features:
 - When reading CSV files, assume columns in same order as defined in class if not given in file.
 - Add the ``Integer``, ``Complex``, ``Vector``, and ``Tag`` feature types.
 - Add the ``Model.predict`` ``yield_inputs`` parameter.
+- Add the ``Model.train`` ``random_state`` parameter.
 
 Bug fixes:
 
