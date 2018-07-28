@@ -24,6 +24,22 @@ class TestSimpleTypes(TestCase):
             with self.subTest(n=n):
                 self.assertAlmostEqual(output.b, 10 * n)
 
+    def test_number_validation(self):
+        feature_type = Number()
+
+        for n in (0, 1, 3.141592, -17):
+            with self.subTest(n=n):
+                self.assertEqual(feature_type.validate(n), n)
+
+        for a, b in (("1", 1),):
+            with self.subTest(a=a):
+                self.assertEqual(feature_type.validate(a), b)
+
+        for n in (1j, float("nan"), float("inf"), -float("inf"), "a"):
+            with self.subTest(n=n), \
+                 self.assertRaises((TypeError, ValueError)):
+                feature_type.validate(n)
+
     def test_integer(self):
         class ExampleModel(Model):
             class Input:
@@ -42,6 +58,18 @@ class TestSimpleTypes(TestCase):
         for a, n, output in zip((0, 0.01, 0.99, 1), (0, 0, 10, 10), predictions):
             with self.subTest(a=a):
                 self.assertEqual(output.b, n)
+
+    def test_integer_validation(self):
+        feature_type = Integer()
+
+        for a, b in ((0, 0), (1, 1), (3.141592, 3), (-17, -17)):
+            with self.subTest(a=a):
+                self.assertEqual(feature_type.validate(a), b)
+
+        for a in (1j, float("nan"), float("inf"), -float("inf"), "a"):
+            with self.subTest(a=a), \
+                 self.assertRaises((TypeError, ValueError)):
+                feature_type.validate(a)
 
     def test_complex(self):
         class ExampleModel(Model):
@@ -62,6 +90,18 @@ class TestSimpleTypes(TestCase):
             with self.subTest(a=a):
                 self.assertAlmostEqual(output.b, b)
 
+    def test_complex_validation(self):
+        feature_type = Complex()
+
+        for a in (0, 1, 3 + 4j, -1 + 7j):
+            with self.subTest(a=a):
+                self.assertEqual(feature_type.validate(a), a)
+
+        for a in (float("nan"), float("inf"), -float("inf"), "a"):
+            with self.subTest(a=a), \
+                 self.assertRaises((TypeError, ValueError)):
+                feature_type.validate(a)
+
     def test_label(self):
         class ExampleModel(Model):
             class Input:
@@ -80,6 +120,21 @@ class TestSimpleTypes(TestCase):
         for n, label, output in zip((0, 1), ('a', 'b'), predictions):
             with self.subTest(n=n, label=label):
                 self.assertEqual(output.b, label)
+
+    def test_label_validation(self):
+        ob = object()
+        bad_ob = object()
+
+        feature_type = Label(['a', 'b', 0, ob])
+
+        for a in ('a', 'b', 0, ob):
+            with self.subTest(a=a):
+                self.assertEqual(feature_type.validate(a), a)
+
+        for a in ('c', 1, bad_ob):
+            with self.subTest(a=a), \
+                 self.assertRaises(TypeError):
+                feature_type.validate(a)
 
     def test_multiple_types_in_single_model(self):
         class ExampleModel(Model):
