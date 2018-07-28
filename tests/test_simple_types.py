@@ -80,3 +80,37 @@ class TestSimpleTypes(TestCase):
         for n, label, output in zip((0, 1), ('a', 'b'), predictions):
             with self.subTest(n=n, label=label):
                 self.assertEqual(output.b, label)
+
+    def test_multiple_types_in_single_model(self):
+        class ExampleModel(Model):
+            class Input:
+                a = Number()
+                b = Number()
+
+            class Output:
+                c = Number()
+                d = Number()
+                e = Label(['a', 'b'])
+                f = Complex()
+                g = Number()
+
+        samples = [
+            (0, 0, 0, 0, 'a', 0, 0),
+            (0, 1, 0, 3, 'b', 1j, 0),
+            (1, 0, 2, 0, 'a', 1, 0),
+            (1, 1, 2, 3, 'b', 1 + 1j, 0)
+        ]
+
+        model = ExampleModel.train(ExampleModel.features_from_list(samples))
+
+        predictions = model.predict(ExampleModel.input_features_from_list([
+            sample[:2] for sample in samples
+        ]))
+
+        for sample, prediction in zip(samples, predictions):
+            with self.subTest(sample=sample):
+                self.assertAlmostEqual(sample[2], prediction.c)
+                self.assertAlmostEqual(sample[3], prediction.d)
+                self.assertEqual(sample[4], prediction.e)
+                self.assertAlmostEqual(sample[5], prediction.f)
+                self.assertAlmostEqual(sample[6], prediction.g)

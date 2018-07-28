@@ -12,6 +12,7 @@ Features:
 Bug fixes:
 
 - Support unicode in CSV files.
+- Fix bug which raised an error when predicting a ``Number`` that wasn't the first feature in ``Output``.
 
 1.1.0
 -----

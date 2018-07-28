@@ -100,7 +100,10 @@ class Model(metaclass=ModelMeta):
     def _chunk_dataframe(dataframe, feature_types):
         start = 0
         for feature_type in feature_types:
-            yield dataframe.loc[:, start:start + feature_type.feature_count - 1], feature_type
+            chunk = dataframe.loc[:, start:start + feature_type.feature_count - 1]
+            chunk.columns = range(len(chunk.columns))
+
+            yield chunk, feature_type
             start += feature_type.feature_count
 
     def predict(self, input_features):
