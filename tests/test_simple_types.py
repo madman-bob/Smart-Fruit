@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from smart_fruit import Model
-from smart_fruit.feature_types import Number, Integer, Complex, Label
+from smart_fruit.feature_types import Number, Integer, Complex, Label, Tag
 
 
 class TestSimpleTypes(TestCase):
@@ -135,6 +135,52 @@ class TestSimpleTypes(TestCase):
             with self.subTest(a=a), \
                  self.assertRaises(TypeError):
                 feature_type.validate(a)
+
+    def test_tag_input(self):
+        class ExampleModel(Model):
+            class Input:
+                a = Number()
+                b = Tag()
+
+            class Output:
+                c = Number()
+
+        sample_inputs = [
+            (0, 0),
+            (1, 1),
+            (0, 1),
+            (1, 0),
+            (0, "a"),
+            (0, object())
+        ]
+
+        model = ExampleModel.train(ExampleModel.features_from_list([
+            (0, 0, 0),
+            (1, 1, 1)
+        ]))
+
+        predictions = model.predict(ExampleModel.input_features_from_list(sample_inputs))
+
+        for sample_input, prediction in zip(sample_inputs, predictions):
+            with self.subTest(sample=sample_input):
+                self.assertAlmostEqual(prediction.c, sample_input[0])
+
+    def test_tag_output(self):
+        class ExampleModel(Model):
+            class Input:
+                a = Number()
+
+            class Output:
+                b = Tag()
+                c = Number()
+
+        model = ExampleModel.train(ExampleModel.features_from_list([
+            (0, 0, 0),
+            (1, 1, 1)
+        ]))
+
+        with self.assertRaisesRegex(TypeError, "May not predict a Tag"):
+            next(model.predict([ExampleModel.Input(0)]))
 
     def test_multiple_types_in_single_model(self):
         class ExampleModel(Model):

@@ -1,4 +1,5 @@
 from pandas import DataFrame, concat
+from pandas.core.apply import frame_apply
 
 from sklearn import linear_model
 
@@ -113,8 +114,9 @@ class Model(metaclass=ModelMeta):
 
         raw_prediction_dataframe = DataFrame(self.model.predict(raw_features))
 
+        # Using frame_apply instead of chunk.apply as chunk.apply doesn't behave as expected for 0 columns
         prediction_dataframe = concat([
-            chunk.apply(feature_type.from_series, axis=1)
+            frame_apply(chunk, feature_type.from_series, axis=1).apply_standard()
             for chunk, feature_type in self._chunk_dataframe(raw_prediction_dataframe, self.Output)
         ], axis=1)
 

@@ -220,6 +220,10 @@ Custom types may be made by extending the ``FeatureType`` class.
 
   eg. For ``feature_types = [Number(), Label(['red', 'green', 'blue'])]``, we may take values such as ``(0, 'red')``, and ``(1, 'blue')``.
 
+- ``Tag()`` - A feature that is ignored when making predictions. Useful for keeping track of ID numbers.
+
+  Accepts any Python value.
+
 Requirements
 ------------
 

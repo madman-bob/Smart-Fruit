@@ -5,7 +5,7 @@ from pandas import Series
 
 from smart_fruit.feature_types.feature_type_base import FeatureType
 
-__all__ = ["Number", "Integer", "Complex", "Label"]
+__all__ = ["Number", "Integer", "Complex", "Label", "Tag"]
 
 
 class Number(FeatureType):
@@ -75,3 +75,15 @@ class Label(FeatureType, namedtuple('Label', ['labels'])):
 
     def from_series(self, features):
         return max(zip(features, enumerate(self.labels)))[1][1]
+
+
+class Tag(FeatureType):
+    feature_count = 0
+
+    def to_series(self, value):
+        return Series()
+
+    def from_series(self, features):
+        raise TypeError(
+            "May not predict a {}".format(self.__class__.__name__)
+        )
