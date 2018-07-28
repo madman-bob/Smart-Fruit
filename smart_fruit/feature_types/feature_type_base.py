@@ -29,4 +29,4 @@ class FeatureType(metaclass=ABCMeta):
         return Series([value])
 
     def from_series(self, features):
-        return features[0]
+        return features.iloc[0]
