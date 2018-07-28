@@ -213,6 +213,10 @@ Custom types may be made by extending the ``FeatureType`` class.
 
   eg. For ``labels = ['red', 'green', 'blue']``, our label may take the value ``'red'``, but not ``'purple'``.
 
+- ``Vector(feature_types)`` - A feature made of other features. Useful for grouping conceptually related features.
+
+  eg. For ``feature_types = [Number(), Label(['red', 'green', 'blue'])]``, we may take values such as ``(0, 'red')``, and ``(1, 'blue')``.
+
 Requirements
 ------------
 
