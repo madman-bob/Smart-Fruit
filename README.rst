@@ -182,7 +182,10 @@ Models
 
     >>> iris_model = Iris.train([(Iris.Input(5.1, 3.5, 1.4, 0.2), Iris.Output('Iris-setosa'))])
 
-- ``model.predict(input_features)`` - Predict the outputs for a given iterable of inputs.
+- ``model.predict(input_features, yield_inputs=False)`` - Predict the outputs for a given iterable of inputs.
+
+  If ``yield_inputs`` is ``True`` then yield the prediction with the input used to generate it, as ``input``, ``output`` pairs.
+  Otherwise, yield just the predictions, in the same order the inputs are given to the model.
 
   eg.
 

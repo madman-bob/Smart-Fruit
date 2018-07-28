@@ -106,8 +106,10 @@ class Model(metaclass=ModelMeta):
             yield chunk, feature_type
             start += feature_type.feature_count
 
-    def predict(self, input_features):
-        raw_features = self._to_raw_features(DataFrame(input_features), self.Input)
+    def predict(self, input_features, yield_inputs=False):
+        input_features_dataframe = DataFrame(input_features)
+
+        raw_features = self._to_raw_features(input_features_dataframe, self.Input)
 
         raw_prediction_dataframe = DataFrame(self.model.predict(raw_features))
 
@@ -116,5 +118,12 @@ class Model(metaclass=ModelMeta):
             for chunk, feature_type in self._chunk_dataframe(raw_prediction_dataframe, self.Output)
         ], axis=1)
 
-        for _, output_series in prediction_dataframe.iterrows():
-            yield self.Output(*output_series)
+        if yield_inputs:
+            for (_, input_series), (_, output_series) in zip(
+                input_features_dataframe.iterrows(),
+                prediction_dataframe.iterrows()
+            ):
+                yield self.Input(*input_series), self.Output(*output_series)
+        else:
+            for _, output_series in prediction_dataframe.iterrows():
+                yield self.Output(*output_series)
