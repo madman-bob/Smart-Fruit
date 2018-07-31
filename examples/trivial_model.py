@@ -17,8 +17,8 @@ def main():
     ])
 
     inputs = [3, 6, 9]
-    predictions = multiply_by_10.predict([TrivialModel.Input(n) for n in inputs])
-    for input_, predicted_output in zip(inputs, predictions):
+    predictions = multiply_by_10.predict([TrivialModel.Input(n) for n in inputs], yield_inputs=True)
+    for input_, predicted_output in predictions:
         print(input_, predicted_output.output)
 
 

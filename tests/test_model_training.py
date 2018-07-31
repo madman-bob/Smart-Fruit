@@ -1,4 +1,4 @@
-from random import random
+from random import Random
 from unittest import TestCase
 
 from numpy import median
@@ -31,11 +31,14 @@ class TestModelTraining(TestCase):
         )
 
     def test_train_test_split_noisy(self):
+        random = Random(0).random
+
         for n in range(1, 10):
             with self.subTest(train_test_split_ratio=n / 10):
                 score = self._median_train_test_split(
                     lambda m: m + 5 * random(),
                     train_test_split_ratio=n / 10,
+                    random_state=0,
                     attempts=5
                 )
 
@@ -43,9 +46,12 @@ class TestModelTraining(TestCase):
                 self.assertLess(score, 1)
 
     def test_train_test_split_pure_noise(self):
+        random = Random(0).random
+
         score = self._median_train_test_split(
             lambda n: random(),
             train_test_split_ratio=0.2,
+            random_state=0,
             attempts=5
         )
 

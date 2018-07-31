@@ -131,7 +131,9 @@ Models
     >>> list(Iris.input_features_from_json([{'sepal_length_cm': 5.1, 'sepal_width_cm': 3.5, 'petal_length_cm': 1.4, 'petal_width_cm': 0.2}]))
     [Input(sepal_length_cm=5.1, sepal_width_cm=3.5, petal_length_cm=1.4, petal_width_cm=0.2)]
 
-- ``Model.features_from_csv(csv_path)`` - Take a path to a CSV file, and deserialize it into an iterable of input/output feature pairs.
+- ``Model.features_from_csv(csv_path)`` - Take a path to a CSV file, or a file-like object, and deserialize it into an iterable of input/output feature pairs.
+
+  If column headings are not given in the file, assume the input features are followed by the output features, in the order they are defined in their respective classes.
 
   eg.
 
@@ -140,7 +142,9 @@ Models
     >>> list(Iris.features_from_csv('iris_data.csv'))
     [(Input(sepal_length_cm=5.1, sepal_width_cm=3.5, petal_length_cm=1.4, petal_width_cm=0.2), Output(iris_class='Iris-setosa')), ...]
 
-- ``Model.input_features_from_csv(csv_path)`` - Take a path to a CSV file, and deserialize it into an iterable of input features.
+- ``Model.input_features_from_csv(csv_path)`` - Take a path to a CSV file, or a file-like object, and deserialize it into an iterable of input features.
+
+  If column headings are not given in the file, assume they are in the order they are defined in the ``Input`` class.
 
   eg.
 
@@ -157,7 +161,7 @@ Models
   In particular, this attribute accepts any ``scikit-learn`` multi-response regression models,
   ie. any ``scikit-learn`` regression model where the ``y`` parameter of ``fit`` accepts a numpy array of shape ``[n_samples, n_targets]``.
 
-- ``Model.train(features, train_test_split_ratio=None, test_sample_count=None)``
+- ``Model.train(features, train_test_split_ratio=None, test_sample_count=None, random_state=None)``
 
   Train a new model on the given iterable of input/output pairs.
 
@@ -172,13 +176,21 @@ Models
     If ``train_test_split_ratio`` or ``test_sample_count`` are provided, perform cross-validation of the given data.
     Return both the trained model, and the score of the test data on that model.
 
+  - ``random_state`` - Either a ``numpy`` ``RandomState``, or the seed to use for the PRNG.
+
+  Useful for getting consistent results, for example for automated tests.
+  Do not use this parameter when generating models you plan to use in production settings.
+
   eg.
 
   .. code:: python
 
     >>> iris_model = Iris.train([(Iris.Input(5.1, 3.5, 1.4, 0.2), Iris.Output('Iris-setosa'))])
 
-- ``model.predict(input_features)`` - Predict the outputs for a given iterable of inputs.
+- ``model.predict(input_features, yield_inputs=False)`` - Predict the outputs for a given iterable of inputs.
+
+  If ``yield_inputs`` is ``True`` then yield the prediction with the input used to generate it, as ``input``, ``output`` pairs.
+  Otherwise, yield just the predictions, in the same order the inputs are given to the model.
 
   eg.
 
@@ -197,9 +209,25 @@ Custom types may be made by extending the ``FeatureType`` class.
 
   eg. ``0``, ``1``, ``3.141592``, ``-17``, ...
 
+- ``Integer()`` - A whole number feature.
+
+  eg. ``0``, ``1``, ``3``, ``-17``, ...
+
+- ``Complex()`` - A complex-valued number feature.
+
+  eg. ``0``, ``1``, ``3 + 4j``, ``-1 + 7j``, ...
+
 - ``Label(labels)`` - An enumerated feature, ie. one which may take one of a pre-defined list of available values.
 
   eg. For ``labels = ['red', 'green', 'blue']``, our label may take the value ``'red'``, but not ``'purple'``.
+
+- ``Vector(feature_types)`` - A feature made of other features. Useful for grouping conceptually related features.
+
+  eg. For ``feature_types = [Number(), Label(['red', 'green', 'blue'])]``, we may take values such as ``(0, 'red')``, and ``(1, 'blue')``.
+
+- ``Tag()`` - A feature that is ignored when making predictions. Useful for keeping track of ID numbers.
+
+  Accepts any Python value.
 
 Requirements
 ------------

@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split as sk_train_test_split
 __all__ = ["train_test_split"]
 
 
-def train_test_split(features, train_test_split_ratio=None, test_sample_count=None):
+def train_test_split(features, train_test_split_ratio=None, test_sample_count=None, random_state=None):
     if (train_test_split_ratio is None) == (test_sample_count is None):
         raise ValueError(
             "Must provide exactly one of train_test_split_ratio or test_sample_count "
@@ -28,5 +28,6 @@ def train_test_split(features, train_test_split_ratio=None, test_sample_count=No
 
     return sk_train_test_split(
         list(features),
-        test_size=train_test_split_ratio or test_sample_count
+        test_size=train_test_split_ratio or test_sample_count,
+        random_state=random_state
     )
