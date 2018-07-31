@@ -5,7 +5,7 @@ from smart_fruit.utils import csv_open
 
 
 class TestCSVOpen(TestCase):
-    test_csv_path = "test_utils/example_csv.csv"
+    test_csv_path = "tests/test_utils/example_csv.csv"
     test_csv_columns = ('a', 'b', 'c')
     test_csv_response = [
         {'a': '1', 'b': '2', 'c': '3'},
