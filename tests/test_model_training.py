@@ -78,11 +78,13 @@ class TestModelTraining(TestCase):
             self._median_train_test_split(
                 almost_straight_line,
                 model_class=TrivialModel,
-                train_test_split_ratio=0.2
+                train_test_split_ratio=0.2,
+                random_state=0
             ),
             self._median_train_test_split(
                 almost_straight_line,
                 model_class=HuberModel,
                 train_test_split_ratio=0.2,
+                random_state=0
             )
         )
