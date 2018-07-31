@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 from os import path
 
 import re
@@ -24,7 +24,7 @@ def get_requirements():
 setup(
     name='smart-fruit',
     version=get_version(),
-    packages=['smart_fruit'],
+    packages=find_packages(include=('smart_fruit', 'smart_fruit.*')),
     install_requires=get_requirements(),
 
     author='Robert Wright',

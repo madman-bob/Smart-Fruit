@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.2.1
+-----
+
+Bug fixes:
+
+- Fix broken build.
+
 1.2.0
 -----
 
